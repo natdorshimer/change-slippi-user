@@ -52,6 +52,6 @@ fn get_user_name_from_args() -> String {
     env::args()
         .collect::<Vec<String>>()
         .get(1)
-        .expect("Command line argument container user is required. Ex: `$ ./change-slippi-user my-secondary`")
+        .expect("Command line argument for user is required. Ex: `$ ./change-slippi-user my-secondary`")
         .clone()
 }
