@@ -30,7 +30,8 @@ fn get_path_of_filepaths_json() -> Box<Path> {
     path_of_executable
         .parent()
         .unwrap()
-        .join("filepaths.json").into_boxed_path()
+        .join("filepaths.json")
+        .into_boxed_path()
 }
 
 fn create_new_file_with_contents(path: &Path, contents: &str) -> std::io::Result<()> {
