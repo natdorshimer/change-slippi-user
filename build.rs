@@ -8,6 +8,6 @@ fn main() -> std::io::Result<()> {
     let out = &env::var("PROFILE").unwrap();
     let json_output_path = PathBuf::from(format!("target/{}/filepaths.json", out));
 
-    fs::copy(file_path.to_str().unwrap(), json_output_path.to_str().unwrap())?;
+    fs::copy(file_path, json_output_path)?;
     Ok(())
 }

@@ -1,7 +1,6 @@
 use std::env;
 use serde::{Deserialize, Serialize};
 use std::fs;
-use std::io::Write;
 use std::path::Path;
 
 #[derive(Deserialize, Serialize, Default)]
@@ -10,7 +9,7 @@ struct SlippiPaths {
     slippi_folder_path: String
 }
 
-fn main() -> std::io::Result<()> {
+fn main() {
     let filepaths_json_path = get_path_of_filepaths_json();
     let paths: SlippiPaths = get_slippi_paths(&filepaths_json_path);
 
@@ -19,9 +18,7 @@ fn main() -> std::io::Result<()> {
     let new_user_file_path = format!("{}/user.json", paths.slippi_folder_path);
     let user_json_file_path = format!("{}/{}.json", paths.user_json_folder_path, user_json_name);
 
-    let new_user_json = std::fs::read_to_string(user_json_file_path).unwrap();
-
-    create_new_file_with_contents(Path::new(&new_user_file_path), &new_user_json)
+    std::fs::copy(Path::new(&user_json_file_path), Path::new(&new_user_file_path)).unwrap();
 }
 
 fn get_path_of_filepaths_json() -> Box<Path> {
@@ -32,13 +29,6 @@ fn get_path_of_filepaths_json() -> Box<Path> {
         .unwrap()
         .join("filepaths.json")
         .into_boxed_path()
-}
-
-fn create_new_file_with_contents(path: &Path, contents: &str) -> std::io::Result<()> {
-    let mut new_file = std::fs::File::create(path)?;
-    new_file.write_all(contents.as_ref())?;
-    new_file.sync_data()?;
-    Ok(())
 }
 
 fn get_slippi_paths(json_file_path: &Path) -> SlippiPaths {
