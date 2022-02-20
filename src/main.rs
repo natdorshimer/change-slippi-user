@@ -1,7 +1,7 @@
 use std::env;
 use serde::{Deserialize, Serialize};
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 #[derive(Deserialize, Serialize, Default)]
 struct SlippiPaths {
@@ -15,10 +15,10 @@ fn main() {
 
     let user_json_name = get_user_name_from_args();
 
-    let new_user_file_path = format!("{}/user.json", paths.slippi_folder_path);
-    let user_json_file_path = format!("{}/{}.json", paths.user_json_folder_path, user_json_name);
+    let new_user_file_path = PathBuf::from(format!("{}/user.json", paths.slippi_folder_path));
+    let user_json_file_path = PathBuf::from(format!("{}/{}.json", paths.user_json_folder_path, user_json_name));
 
-    std::fs::copy(Path::new(&user_json_file_path), Path::new(&new_user_file_path)).unwrap();
+    std::fs::copy(user_json_file_path, new_user_file_path).unwrap();
 }
 
 fn get_path_of_filepaths_json() -> Box<Path> {
